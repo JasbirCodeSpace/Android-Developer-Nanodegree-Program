@@ -24,7 +24,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private Sandwich sandwich;
     private ImageView sandwichImage;
-    private TextView sandwichOrigin,sandwichAlsoKnown,sandwichDescription,sandwichIngredients;
+    private TextView sandwichOrigin, sandwichAlsoKnown, sandwichDescription, sandwichIngredients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,23 +52,23 @@ public class DetailActivity extends AppCompatActivity {
         String[] sandwiches = getResources().getStringArray(R.array.sandwich_details);
         String json = sandwiches[position];
 
-try {
-    sandwich = JsonUtils.parseSandwichJson(json);
-    if (sandwich == null) {
-        // Sandwich data unavailable
-        closeOnError();
-        return;
-    }
-    populateUI();
-    Picasso.with(this)
-            .load(sandwich.getImage())
-            .into(sandwichImage);
+        try {
+            sandwich = JsonUtils.parseSandwichJson(json);
+            if (sandwich == null) {
+                // Sandwich data unavailable
+                closeOnError();
+                return;
+            }
+            populateUI();
+            Picasso.with(this)
+                    .load(sandwich.getImage())
+                    .into(sandwichImage);
 
-    setTitle(sandwich.getMainName());
-}catch(Exception e){
-    e.printStackTrace();
-    Log.v(TAG,e.getMessage());
-}
+            setTitle(sandwich.getMainName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.v(TAG, e.getMessage());
+        }
     }
 
     private void closeOnError() {
@@ -77,22 +77,22 @@ try {
     }
 
     private void populateUI() {
-        sandwichDescription.setText(sandwich.getDescription().equals("")?"N/A":sandwich.getDescription());
-        sandwichOrigin.setText(sandwich.getPlaceOfOrigin().equals("")?"N/A":sandwich.getPlaceOfOrigin());
-        appendListToTextView(sandwichIngredients,sandwich.getIngredients());
-        appendListToTextView(sandwichAlsoKnown,sandwich.getAlsoKnownAs());
+        sandwichDescription.setText(sandwich.getDescription().equals("") ? "N/A" : sandwich.getDescription());
+        sandwichOrigin.setText(sandwich.getPlaceOfOrigin().equals("") ? "N/A" : sandwich.getPlaceOfOrigin());
+        appendListToTextView(sandwichIngredients, sandwich.getIngredients());
+        appendListToTextView(sandwichAlsoKnown, sandwich.getAlsoKnownAs());
 
     }
 
-    public void appendListToTextView(TextView tv,List<String> list){
+    public void appendListToTextView(TextView tv, List<String> list) {
         int n = list.size();
-        if(n==0){
+        if (n == 0) {
             tv.append("N/A");
             return;
         }
-        for (int i=0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             tv.append(list.get(i));
-            if(i<n-1)
+            if (i < n - 1)
                 tv.append("\n");
         }
     }
